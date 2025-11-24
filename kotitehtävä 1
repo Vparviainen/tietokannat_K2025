@@ -1,0 +1,59 @@
+#include <iostream>
+#include <iomanip>
+#include <stdexcept>
+
+void calcSum(int a, int b) {
+    std::cout << a << " + " << b << " = " << a + b << "\n";
+}
+
+void calcDiv(int a, int b) {
+    if (b == 0) {
+        std::cout << "Virhe: Jakaja ei saa olla nolla (calcDiv)\n";
+    } else {
+        std::cout << a << " / " << b << " = " << std::fixed << std::setprecision(2) << (float)a / b << "\n";
+    }
+}
+
+int retSum(int a, int b) {
+    return a + b;
+}
+
+float retDiv(int a, int b) {
+    if (b == 0) {
+        throw std::runtime_error("jakaja ei saa olla nolla!");
+    }
+    return (float)a / b;
+}
+
+int main() {
+    int a;
+    int b;
+    int sum_result;
+    float div_result;
+
+    std::cout << "Syötä kokonaisluku a: ";
+    std::cin >> a;
+    std::cout << "Syötä kokonaisluku b: ";
+    std::cin >> b;
+
+    std::cout << "\n--- calc-funktiot (ei paluuarvoa, tulostaa itse) ---\n";
+    
+    calcSum(a, b);
+    calcDiv(a, b);
+
+    std::cout << "\n--- ret-funktiot (palauttaa arvon, main tulostaa) ---\n";
+
+    sum_result = retSum(a, b);
+    std::cout << a << " + " << b << " = " << sum_result << "\n";
+
+    std::cout << "Osamäärän laskenta try-catch-rakenteella:\n";
+    
+    try {
+        div_result = retDiv(a, b);
+        std::cout << a << "/" << b << " = " << std::fixed << std::setprecision(2) << div_result << std::endl;
+    } catch (std::runtime_error& e) {
+        std::cout << "Error: " << e.what() << std::endl;
+    }
+    
+    return 0;
+}
