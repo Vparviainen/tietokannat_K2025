@@ -1,0 +1,46 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+// Car-luokka
+class Car {
+private:
+    string brand;
+    string model;
+    int yearModel;
+
+public:
+    // Konstruktori
+    Car(string b, string m, int y) : brand(b), model(m), yearModel(y) {}
+
+    // Metodi auton tietojen tulostamiseen
+    void printData() const {
+        cout << "Brand: " << brand
+             << ", Model: " << model
+             << ", Year: " << yearModel << endl;
+    }
+};
+
+int main() {
+    // Vektori auto-olioille
+    vector<Car> carList;
+
+    // Lisää kolme autoa listaan
+    carList.push_back(Car("Toyota", "Corolla", 2018));
+    carList.push_back(Car("Ford", "Mustang", 2020));
+    carList.push_back(Car("Honda", "Civic", 2019));
+
+    // Tulosta toisen alkion tiedot
+    cout << "Second car in the list:" << endl;
+    carList[1].printData();
+
+    // Tulosta kaikkien autojen tiedot
+    cout << "\nAll cars in the list:" << endl;
+    for (const auto& car : carList) {
+        car.printData();
+    }
+
+    return 0;
+}
