@@ -1,0 +1,61 @@
+#include <QCoreApplication>
+#include <QDebug>
+#include <QObject>
+#include <QThread>
+
+class ExampleClass : public QObject
+{
+    Q_OBJECT
+
+public:
+    explicit ExampleClass(QObject *parent = nullptr);
+
+    void startToWait();
+
+signals:
+    void readyToSay();
+
+public slots:
+    void sayHelloSlot();
+};
+
+ExampleClass::ExampleClass(QObject *parent) : QObject(parent)
+{
+    qDebug() << "Start";
+    
+    connect(this, &ExampleClass::readyToSay,
+            this, &ExampleClass::sayHelloSlot);
+            
+    qDebug() << "End";
+}
+
+void ExampleClass::startToWait()
+{
+    qDebug() << "startToWait: Odotetaan 1000ms (1 sekunti)...";
+    QThread::msleep(1000); 
+    
+    emit readyToSay();
+    qDebug() << "startToWait: Signaali lähetetty.";
+}
+
+void ExampleClass::sayHelloSlot()
+{
+    qDebug() << "Terve";
+}
+
+int main(int argc, char *argv[])
+{
+    QCoreApplication a(argc, argv);
+    
+    qDebug() << "main: Luodaan ExampleClass-olio.";
+
+    ExampleClass object;
+
+    qDebug() << "main: Kutsutaan startToWait().";
+    
+    object.startToWait();
+    
+    qDebug() << "main: startToWait() palasi. Ohjelma päättyy.";
+
+    return 0;
+}
